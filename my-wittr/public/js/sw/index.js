@@ -1,11 +1,15 @@
-self.addEventListener('fetch', function (event) {
-  // TODO: respond to all requests with an html response
-  // containing an element with class="a-winner-is-me".
-  // Ensure the Content-Type of the response is "text/html"
-  if (event.request.url.endsWith('.jpg')) {
-    event.respondWith(
-      fetch('imgs/dr-evil.gif')
-    );
-  }
-  // console.log(event.request);
+self.addEventListener('fetch', function(event) {
+  event.respondWith(
+    fetch(event.request).then(function(response) {
+      if (response.status === 404) {
+        // TODO: instead, respond with the gif at
+        // /imgs/dr-evil.gif
+        // using a network request
+        return fetch('imgs/dr-evil.gif');
+      }
+      return response;
+    }).catch(function() {
+      return new Response("Uh oh, that totally failed!");
+    })
+  );
 });
