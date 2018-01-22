@@ -20,7 +20,9 @@ IndexController.prototype._registerServiceWorker = function() {
     // TODO: if there's no controller, this page wasn't loaded
     // via a service worker, so they're looking at the latest version.
     // In that case, exit early
-    console.log(reg);
+    if (!navigator.serviceWorker.controller) {
+      return;
+    }
 
     // TODO: if there's an updated worker already waiting, call
     // indexController._updateReady()
