@@ -1,8 +1,6 @@
 var staticCacheName = 'wittr-static-v4';
 
 self.addEventListener('install', function(event) {
-  // TODO: cache /skeleton rather than the root page
-
   event.waitUntil(
     caches.open(staticCacheName).then(function(cache) {
       return cache.addAll([
@@ -32,15 +30,11 @@ self.addEventListener('activate', function(event) {
   );
 });
 
-// update
 self.addEventListener('fetch', function(event) {
-  
-  // TODO: respond to requests for the root page with
-  // the page skeleton from the cache
-  var requestURL = new URL(event.request.url);
+  var requestUrl = new URL(event.request.url);
 
-  if (requestURL.origin == location.origin) {
-    if (requestURL.pathname === '/') {
+  if (requestUrl.origin === location.origin) {
+    if (requestUrl.pathname === '/') {
       event.respondWith(caches.match('/skeleton'));
       return;
     }
